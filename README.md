@@ -27,12 +27,12 @@ cd project_data_analyst
 
 Make Virtual Envoirement
 ```bash
-python -m venv projectvenv
+pipenv install
 ```
 
 Activate Virtual Envoirment
 ```bash
-.\projectvenv\Scripts\activate
+pipenv shell
 ```
 
 Install all libraries neeeded (requirements.txt is made using freeze from the original project)
