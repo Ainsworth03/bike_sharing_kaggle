@@ -1,2 +1,13 @@
-# bike_sharing_kaggle
-This is a code consist of some analysis of Bike Sharing Dataset on Kaggle
+# Feb's Bike Rentals
+
+**Setup Envoirement Shell/Terminal**
+mkdir project_data_analyst
+cd project_data_analyst
+pipenv install
+pipenv shell
+pip install -r requirements.txt
+
+**Run Streamlit App**
+streamlit run dashboard.py
+
+
