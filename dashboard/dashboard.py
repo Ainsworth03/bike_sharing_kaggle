@@ -51,10 +51,11 @@ def PivotRent_perHour(df):
     #print(pivot_RentperHour)
     return pivot_RentperHour
 
+rev_day_dir = os.path.join(os.getcwd(), 'dashboard/rev_day.csv')
+hour_df_dir = os.path.join(os.getcwd(), 'dashboard/rev_hour.csv')
 
-
-day_df = pd.read_csv(f"{cwd}/rev_day.csv")
-hour_df = pd.read_csv(f"{cwd}/rev_hour.csv")
+day_df = pd.read_csv(rev_day_dir)
+hour_df = pd.read_csv(rev_hour_dir)
 
 day_df.sort_values(by="date", inplace=True)
 day_df.reset_index(inplace=True)
