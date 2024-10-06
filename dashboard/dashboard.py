@@ -9,6 +9,12 @@ cwd = os.getcwd()
 
 sns.set(style='dark')
 
+rev_day_dir = os.path.join(os.getcwd(), 'dashboard/rev_day.csv')
+rev_hour_dir = os.path.join(os.getcwd(), 'dashboard/rev_hour.csv')
+
+day_df = pd.read_csv(rev_day_dir)
+hour_df = pd.read_csv(rev_hour_dir)
+
 def RentTrend_2011_df(df):
     pivot_RentperMonth_2011 = df[df['year']==2011].groupby(by=['year', 'month']).agg(
         {
@@ -50,6 +56,157 @@ def PivotRent_perHour(df):
     pivot_RentperHour['percentage'] = pivot_RentperHour['rented']*100/pivot_RentperHour['rented'].sum()
     #print(pivot_RentperHour)
     return pivot_RentperHour
+
+def show_additional():
+    #####################
+        #ADDITIONAL#
+    ######################
+
+    # WEEKEND vs WEEKDAY CUSTOMERS
+   st.subheader('Additional Info:')
+
+    # WEEKEND vs WEEKDAY CUSTOMERS
+    st.subheader('Weekend vs Weekday Customers')
+
+    WeeendWeekday_rent = day_df.groupby('workingday')['rented'].sum().reset_index()
+    WeeendWeekday_rent['day_type'] = WeeendWeekday_rent['workingday'].map({1: 'weekday', 0:'weekend'})
+
+    colors = ('#90d5ff', '#adebb3')
+
+    fig, ax = plt.subplots(figsize=(10,5))
+    ax.pie(WeeendWeekday_rent['rented'], labels=WeeendWeekday_rent['day_type'], autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')
+    ax.set_title("Weekend vs Weekday Rent Chart",fontsize=28, fontweight='bold')
+
+    st.pyplot(fig)
+    
+    ###########################
+
+    #BEST and WORST PERFORMING DAY OVEERALL
+
+    #Best:
+    st.subheader('Best and Worst Performing day (Overall)')
+
+    col1, col2= st.columns(2)
+
+
+
+    with col1:
+        best_performing_date_df = day_df.nlargest(10, 'rented').sort_values(by='rented', ascending=False)
+        best_performing_date_df['date'] = pd.to_datetime(best_performing_date_df['date'])
+
+        fig, ax = plt.subplots()
+        colors = ['#8fd9fb' if x == best_performing_date_df.rented.max() else '#d3d3d3' for x in best_performing_date_df.rented]
+        
+        sns.barplot(data=best_performing_date_df, x='rented', y='date', palette=colors, hue='date', legend=False)
+
+        plt.xticks(rotation=45)
+
+        ax.set_title('Best Performance Day')
+        ax.set_ylabel('date')
+        ax.set_xlabel('bike rented')
+
+        st.pyplot(fig)
+
+    #worst:
+    with col2:
+        worst_performing_date_df = day_df.nsmallest(10, 'rented').sort_values(by='rented', ascending=True)
+
+        colors = ['#8fd9fb' if x == worst_performing_date_df.rented.min() else '#d3d3d3' for x in worst_performing_date_df.rented  ]
+
+        fig, ax = plt.subplots()
+        sns.barplot(data=worst_performing_date_df, x='rented', y='date', palette=colors, hue='date', legend=False)
+
+
+        plt.xticks(rotation=45)
+
+
+        ax.set_title('Worst Performance Day')
+        ax.set_ylabel('date')
+        ax.set_xlabel('bike rented')
+
+        st.pyplot(fig)
+    
+    ######################################
+
+    #BEST and WORST PERFORMING DAY 2011
+
+    st.subheader('Best and Worst Performing day 2011')
+    col1, col2= st.columns(2)
+
+    #Best
+    with col1:
+        best_performing_date_2011 = day_df[day_df['year']==2011].nlargest(10, 'rented').sort_values(by='rented', ascending=False)
+
+        colors = ['#8fd9fb' if x == best_performing_date_2011.rented.max() else '#d3d3d3' for x in best_performing_date_2011.rented  ]
+
+        fig, ax = plt.subplots()
+        sns.barplot(data=best_performing_date_2011, x='rented', y='date', palette=colors, hue='date', legend=False)
+
+        plt.xticks(rotation=45)
+
+        ax.set_title('Best Performance Day 2011')
+        ax.set_ylabel('date')
+        ax.set_xlabel('bike rented')
+
+        st.pyplot(fig)
+
+    #Worst
+    with col2:
+        worst_performing_date_2011 = day_df[day_df['year']==2011].nsmallest(10, 'rented').sort_values(by='rented', ascending=True)
+        colors = ['#8fd9fb' if x == worst_performing_date_2011.rented.min() else '#d3d3d3' for x in worst_performing_date_2011.rented  ]
+
+        fig, ax = plt.subplots()
+        sns.barplot(data=worst_performing_date_2011, x='rented', y='date', palette=colors, hue='date', legend=False)
+
+        plt.xticks(rotation=45)
+
+        ax.set_title('Worst Performance Day 2011')
+        ax.set_ylabel('date')
+        ax.set_xlabel('bike rented')
+
+        st.pyplot(fig)        
+
+    ######################################################
+
+    #BEST and WORST PERFORMING DAY 2012
+
+    st.subheader('Best and Worst Performing day 2012')
+    col1, col2= st.columns(2)
+
+    with col1:
+        best_performing_date_2012 = day_df[day_df['year']==2012].nlargest(10, 'rented').sort_values(by='rented', ascending=False)
+
+        colors = ['#8fd9fb' if x == best_performing_date_2012.rented.max() else '#d3d3d3' for x in best_performing_date_2012.rented  ]
+
+        fig, ax = plt.subplots()
+        sns.barplot(data=best_performing_date_2012, x='rented', y='date', palette=colors, hue='date', legend=False)
+
+        plt.xticks(rotation=45)
+
+
+        ax.set_title('Best Performance Day 2012')
+        ax.set_ylabel('date')
+        ax.set_xlabel('bike rented')
+
+        st.pyplot(fig) 
+
+    with col2:
+        worst_performing_date_2012 = day_df[day_df['year']==2012].nsmallest(10, 'rented').sort_values(by='rented', ascending=True)
+
+        colors = ['#8fd9fb' if x == worst_performing_date_2012.rented.min() else '#d3d3d3' for x in worst_performing_date_2012.rented  ]
+
+        fig, ax = plt.subplots()
+        sns.barplot(data=worst_performing_date_2012,x='rented', y='date', palette=colors, hue='date', legend=False)
+
+
+        plt.xticks(rotation=45)
+
+        ax.set_title('Worst Performance Day 2012')
+        ax.set_ylabel('date')
+        ax.set_xlabel('bike rented')
+
+        st.pyplot(fig) 
 
 rev_day_dir = os.path.join(os.getcwd(), 'dashboard/rev_day.csv')
 rev_hour_dir = os.path.join(os.getcwd(), 'dashboard/rev_hour.csv')
@@ -427,6 +584,7 @@ with st.sidebar:
 
 if preview == 'See 2011-2012 overview with Insight' or preview == 'Graph Only':
     mainView(preview)
+    show_additional()
 
 else:
 
@@ -442,4 +600,4 @@ else:
         st.text('Warning!\nRange tanggal yang terlalu jauh \ndapat mengakibatkan \ngrafik sulit dipahami.\n\nJika ingin melihat \nketerangan secara keseluruhan,\nubah \'view modde\'')       
 
     main_view_CustomDate()
-    
+    show_additional()
