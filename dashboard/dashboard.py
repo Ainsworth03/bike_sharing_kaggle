@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 from babel.numbers import format_currency
+import os
+
+cwd = os.getcwd()
+
 sns.set(style='dark')
 
 def RentTrend_2011_df(df):
@@ -49,8 +53,8 @@ def PivotRent_perHour(df):
 
 
 
-day_df = pd.read_csv("rev_day.csv")
-hour_df = pd.read_csv("rev_hour.csv")
+day_df = pd.read_csv(f"{cwd}/rev_day.csv")
+hour_df = pd.read_csv(f"{cwd}/rev_hour.csv")
 
 day_df.sort_values(by="date", inplace=True)
 day_df.reset_index(inplace=True)
