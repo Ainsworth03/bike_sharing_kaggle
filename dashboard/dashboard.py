@@ -63,7 +63,7 @@ def show_additional():
     ######################
 
     # WEEKEND vs WEEKDAY CUSTOMERS
-   st.subheader('Additional Info:')
+    st.subheader('Additional Info:')
 
     # WEEKEND vs WEEKDAY CUSTOMERS
     st.subheader('Weekend vs Weekday Customers')
