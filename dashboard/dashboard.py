@@ -5,13 +5,17 @@ import streamlit as st
 from babel.numbers import format_currency
 import os
 
-cwd = os.getcwd()
+# This ensures the script finds the file regardless of where it is run (Local or Cloud)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct paths to the CSV files relative to this script
+rev_day_dir = os.path.join(script_dir, 'rev_day.csv')
+rev_hour_dir = os.path.join(script_dir, 'rev_hour.csv')
+# --- FIX END ---
 
 sns.set(style='dark')
 
-rev_day_dir = os.path.join('rev_day.csv')
-rev_hour_dir = os.path.join('rev_hour.csv')
-
+# Load the data
 day_df = pd.read_csv(rev_day_dir)
 hour_df = pd.read_csv(rev_hour_dir)
 
@@ -596,6 +600,7 @@ else:
 
     main_view_CustomDate()
     show_additional()
+
 
 
 
