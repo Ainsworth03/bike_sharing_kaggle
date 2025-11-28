@@ -208,11 +208,6 @@ def show_additional():
 
         st.pyplot(fig) 
 
-rev_day_dir = os.path.join(os.getcwd(), 'rev_day.csv')
-rev_hour_dir = os.path.join(os.getcwd(), 'rev_hour.csv')
-
-day_df = pd.read_csv(rev_day_dir)
-hour_df = pd.read_csv(rev_hour_dir)
 
 day_df.sort_values(by="date", inplace=True)
 day_df.reset_index(inplace=True)
@@ -601,5 +596,6 @@ else:
 
     main_view_CustomDate()
     show_additional()
+
 
 
